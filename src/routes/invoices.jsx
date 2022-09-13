@@ -1,16 +1,20 @@
 import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useSearchParams } from 'react-router-dom';
 import { getInvoices } from '../data';
 
 const Invoices = () => {
-  const [search, setSearch] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const invoices = getInvoices();
 
   const handleOnChange = (e) => {
-    setSearch(e.target.value);
+    const filter = e.target.value;
+    if (filter) {
+      setSearchParams({ filter });
+    } else {
+      setSearchParams({});
+    }
   };
-  console.log(setSearch);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -20,21 +24,34 @@ const Invoices = () => {
           padding: '1rem',
         }}
       >
-        <input type="search" onChange={handleOnChange} />
-        {invoices.map((invoice) => (
-          <Link
-            to={`/invoices/${invoice.number}`}
-            key={invoice.number}
-            style={{
-              textDecoration: 'none',
-              color: '#131313',
-              padding: '10px 5px',
-              display: 'block',
-            }}
-          >
-            {invoice.name}
-          </Link>
-        ))}
+        <input
+          type="search"
+          value={searchParams.get('filter') || ''}
+          onChange={handleOnChange}
+        />
+        {invoices
+          .filter((invoice) => {
+            const filter = searchParams.get('filter');
+            if (!filter) return true;
+            const name = invoice.name.toLowerCase();
+            return name.startsWith(filter.toLowerCase());
+          })
+          .map((invoice) => (
+            <NavLink
+              to={`/invoices/${invoice.number}`}
+              key={invoice.number}
+              style={({ isActive }) => {
+                return {
+                  textDecoration: 'none',
+                  color: isActive ? 'red' : '#131313',
+                  padding: '10px 5px',
+                  display: 'block',
+                };
+              }}
+            >
+              {invoice.name}
+            </NavLink>
+          ))}
       </nav>
       <Outlet />
     </div>
