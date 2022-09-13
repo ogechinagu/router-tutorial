@@ -1,7 +1,11 @@
 import { Link } from 'react-router-dom';
 
 const Expenses = () => {
-  return <h1>Expenses</h1>;
+  return (
+    <div>
+      <h1>Expenses</h1>
+    </div>
+  );
 };
 
 export default Expenses;
