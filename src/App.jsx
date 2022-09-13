@@ -28,7 +28,7 @@ const App = () => {
           Invoices
         </Link>
         <Link
-          to="/expences"
+          to="/expenses"
           style={{
             textDecoration: 'none',
             color: '#131313',

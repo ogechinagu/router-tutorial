@@ -11,8 +11,8 @@ ReactDOM.render(
   <Router>
     <Routes>
       <Route path="/" element={<App />}>
-        <Route path="invoice" element={<Invoices />} />
-        <Route path="expense" element={<Expenses />} />
+        <Route path="invoices" element={<Invoices />} />
+        <Route path="expenses" element={<Expenses />} />
       </Route>
     </Routes>
   </Router>,
